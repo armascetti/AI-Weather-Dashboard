@@ -20,8 +20,8 @@ body {
   color: #333;
   border-radius: 24px;
   padding: 30px;
-  margin: 25px auto;
-  max-width: 850px;
+  margin: 30px auto;
+  max-width: 900px;
   text-align: center;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 }
@@ -47,8 +47,8 @@ body {
   height: 100px;
 }
 
-.forecast-container {
-  margin-top: 40px;
+.forecast-container h3 {
+  color: #4f4f4f;
 }
 
 .forecast-container h3 {
@@ -60,15 +60,16 @@ body {
 .forecast-cards {
   display: flex;
   gap: 15px;
-  flex-wrap: wrap;
   justify-content: center;
+  flex-wrap: nowrap;
 }
 
 .forecast-card {
   background: rgba(255,255,255,.95);
   border-radius: 16px;
-  padding: 20px;
-  width: 170px;
+  padding: 12px;
+  width: 160px;
+  min-width: 130px;
   text-align: center;
   color: #333;
   box-shadow: 0 8px 20px rgba(0,0,0,.15);
@@ -110,4 +111,50 @@ body {
 .ai-insight-card h3 {
   color: #ff5e62;
   margin-top: 0;
+}
+
+
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    padding: 16px;
+    margin: 0 auto;
+  }
+
+  .weather-card,
+  .ai-insight-card {
+    max-width: 100%;
+    padding: 22px;
+    margin: 20px auto;
+    border-radius: 18px;
+  }
+
+  .weather-card h1 {
+    font-size: 3.2rem;
+  }
+
+  .current-weather-icon {
+    width: 90px;
+    height: 90px;
+  }
+
+  .forecast-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .forecast-card {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .forecast-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .ai-insight-card button {
+    width: 100%;
+  }
 }
