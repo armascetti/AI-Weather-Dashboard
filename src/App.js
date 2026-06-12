@@ -61,6 +61,10 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         setAiSummary(data.summary);
+
+        setAiSummary(
+          "AI briefing is temporarily unavailable. Weather data is still available."
+        );
         setAiLoading(false);
       })
       .catch((error) => {
