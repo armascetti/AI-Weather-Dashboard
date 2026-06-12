@@ -102,9 +102,9 @@ function App() {
       </Box>
 
       {currentWeather && (
-        <Grid container spacing={2}>
+        <Grid container spacing={2} alignItems="stretch">
           <Grid item xs={12} md={7}>
-            <Card sx={{ borderRadius: 3, p: 1 }}>
+            <Card sx={{ borderRadius: 3, p: 1, height: '100%' }}>
               <CardContent sx={{ textAlign: 'left' }}>
                 <Typography variant="h5" component="div">
                   {currentWeather.name}
@@ -167,7 +167,7 @@ function App() {
 
           {currentWeather && forecast && (
             <Grid item xs={12} md={5}>
-              <Card sx={{ borderRadius: 3 }}>
+              <Card sx={{ borderRadius: 3, height: '100%' }}>
                 <CardContent>
                   <Typography variant="h6" sx={{ mb: 2 }}>AI Weather Briefing</Typography>
 
