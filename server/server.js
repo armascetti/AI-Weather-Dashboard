@@ -37,6 +37,9 @@ Give:
 1. A short summary
 2. What to wear
 3. Best outdoor activity advice
+
+Return plain text only. Do not use markdown, asterisks, bullet points, or special formatting.
+
 `;
 
     const response = await client.responses.create({
