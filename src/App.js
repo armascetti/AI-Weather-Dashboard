@@ -1,6 +1,6 @@
 import Search from './Components/Search/Search';
 import './App.css';
-import { WEATHER_API_URL, WEATHER_API_KEY } from './API';
+import { API_BASE_URL } from './API';
 import { useState } from "react";
 
 import Grid from '@mui/material/Grid';
@@ -12,7 +12,6 @@ import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
@@ -27,11 +26,11 @@ function App() {
     const [lat, lon] = searchData.value.split(" ");
 
     const currentWeatherFetch = fetch(
-      `${WEATHER_API_URL}/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=imperial`
+      `${API_BASE_URL}/weather?lat=${lat}&lon=${lon}&units=imperial`
     );
 
     const forecastFetch = fetch(
-      `${WEATHER_API_URL}/forecast?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=imperial`
+      `${API_BASE_URL}/forecast?lat=${lat}&lon=${lon}&units=imperial`
     );
 
     Promise.all([currentWeatherFetch, forecastFetch])
@@ -46,6 +45,7 @@ function App() {
   };
 
   const generateAiSummary = () => {
+    console.log("generateAI clicked")
     setAiLoading(true);
 
     fetch("http://localhost:5000/api/weather-summary", {
@@ -60,19 +60,18 @@ function App() {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log("AI response:", data);
         setAiSummary(data.summary);
-
-        setAiSummary(
-          "AI briefing is temporarily unavailable. Weather data is still available."
-        );
         setAiLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setAiSummary(
+          "AI briefing is temporarily unavailable. Weather data is still available."
+        );
         setAiLoading(false);
       });
-  };
-
+  }
   const [snackOpen, setSnackOpen] = useState(false);
   const [snackMessage, setSnackMessage] = useState('');
 
@@ -84,20 +83,7 @@ function App() {
     });
   };
 
-  const handleDownload = () => {
-    if (!aiSummary) return;
-    const blob = new Blob([aiSummary], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${currentWeather.name}-weather-briefing.txt`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-    setSnackMessage('Downloaded AI briefing');
-    setSnackOpen(true);
-  };
+
 
   return (
     <Box className="container" sx={{ maxWidth: 1100, mx: 'auto', p: 2 }}>
@@ -187,9 +173,6 @@ function App() {
                         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                           <IconButton aria-label="copy" size="small" onClick={handleCopy}>
                             <ContentCopyIcon fontSize="small" />
-                          </IconButton>
-                          <IconButton aria-label="download" size="small" onClick={handleDownload}>
-                            <FileDownloadIcon fontSize="small" />
                           </IconButton>
                         </Box>
                         <Typography sx={{ whiteSpace: 'pre-line', mt: 1 }}>{aiSummary}</Typography>

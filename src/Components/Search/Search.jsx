@@ -1,6 +1,6 @@
 import { AsyncPaginate } from "react-select-async-paginate";
 import { useState } from "react";
-import { WEATHER_API_KEY } from "../../API";
+import { API_BASE_URL } from "../../API";
 
 const Search = ({ onSearchChange }) => {
   const [search, setSearch] = useState(null);
@@ -10,20 +10,27 @@ const Search = ({ onSearchChange }) => {
       return Promise.resolve({ options: [] });
     }
 
-    return fetch(
-      `https://api.openweathermap.org/geo/1.0/direct?q=${inputValue}&limit=5&appid=${WEATHER_API_KEY}`
-    )
-      .then((response) => response.json())
-      .then((cities) => {
+    return fetch(`${API_BASE_URL}/cities?q=${encodeURIComponent(inputValue)}&limit=5`)
+      .then(async (response) => {
+        const body = await response.json();
+        if (!response.ok) {
+          throw new Error(body.error || `City search failed (${response.status})`);
+        }
+
+        const cities = Array.isArray(body) ? body : body.data;
+        if (!Array.isArray(cities)) {
+          throw new Error("City search returned an unexpected response format");
+        }
+
         return {
           options: cities.map((city) => ({
-            value: `${city.lat} ${city.lon}`,
-            label: `${city.name}${city.state ? `, ${city.state}` : ""}, ${city.country}`,
+            value: `${city.latitude} ${city.longitude}`,
+            label: `${city.name}${city.region ? `, ${city.region}` : ""}, ${city.country}`,
           })),
         };
       })
       .catch((error) => {
-        console.log("OpenWeather city search error:", error);
+        console.error("City search error:", error);
         return { options: [] };
       });
   };
