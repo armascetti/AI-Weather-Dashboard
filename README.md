@@ -2,17 +2,6 @@
 
 An AI-powered weather application built with React, Node.js, Express, and OpenAI. Users can search for cities worldwide, view current weather conditions, explore short-term forecasts, and generate AI-powered weather briefings based on real-time weather data.
 
-## Setup
-
-1. Create `server/.env` from the environment example values.
-2. Add your OpenAI, RapidAPI, and OpenWeather API keys to `server/.env`.
-3. Start the server with `node server/server.js`.
-4. Start the React app with `npm start`.
-
-The `.env` file is ignored by Git. API keys are read only by the Express server and are never bundled into the React application.
-
-> Rotate any API keys that were previously committed to source code or exposed in a public build.
-
 ## Features
 
 * Search for cities worldwide using the GeoDB Cities API
@@ -84,7 +73,3 @@ AI Weather Briefing
 * Weather alerts and notifications
 * Multi-day forecast visualizations
 * Deployment to a cloud hosting platform
-
-## Author
-
-Amanda Mascetti
